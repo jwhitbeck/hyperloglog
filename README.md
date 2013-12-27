@@ -5,7 +5,7 @@ A redis-backed hyperloglog implementation in Clojure
 
 [![Build Status](https://travis-ci.org/jwhitbeck/hyperloglog.png)](https://travis-ci.org/jwhitbeck/hyperloglog.png)
 
-Hyperlolog is a highly-accurate probabilistic cardinality estimation algorithm that uses constant storage, first proposed by Flajolet *et al* [1]. This clojure library is designed for the use case where multiple frontends update shared hyperloglog counters stored in [Redis][]. Hyperloglog time-series are also supported. These enable cardinality estimates over arbitrary periods of time (e.g., number of distinct users over the past week).
+Hyperlolog is a highly-accurate probabilistic cardinality estimation algorithm that uses constant storage, first proposed by Flajolet *et al* [1]. This clojure library is designed for the use case where multiple frontends update shared hyperloglog counters stored in [Redis][]. Hyperloglog time-series are also supported, enabling cardinality estimates over arbitrary periods of time (e.g., number of distinct users over the past week).
 
 [Redis]: http://redis.io
 
@@ -88,7 +88,7 @@ Furthermore an `hll/add-at` function is available for adding items at a specific
 
 This library make the following implementation choices
 
-* Uses a 64 bit hashing function for increased accuracy on higher cardinalities (> 1 billion) as suggested by Heule *et al* [2], instead of the large range corrections in the original paper [1].
+* Uses a 64 bit hashing function for increased accuracy on higher cardinalities (> 1 billion) as suggested by Heule *et al* [2], instead of the 32-bit hashing function with large range corrections in the original paper [1].
 * No small range corrections. If *m* is the number of observables, the hyperloglog aymptotic expected relative error is not typically attained for cardinalities less than *n = 5/2 m*.
 
 The table below shows the various hyperloglog operating points depending on the choice of the number of observables.
@@ -151,8 +151,8 @@ The table below shows the various hyperloglog operating points depending on the 
 </table>
 
 * The number of observables scales linearly with the memory requirements. Note that the observables for a given hyperloglog is backed by a redis hash (storing *m* fields and *m* value).
-* The minimum number of samples indicates the the number of samples beyond which the estimate is usually within its expected relative error.
-* The standard error is the square root of the variance divided by the number of samples.  See [1] for full details.
+* The minimum number of samples indicates the the number of samples beyond which the estimate is usually within its expected relative error (*5/2m*).
+* The standard error is the square root of the variance divided by the number of samples. Its asymptotic value is *1.04/sqrt(m)*. See [1] for full details.
 
 This library defaults to *m=1024*, but this is of course configurable (see for example the `hyperloglog.core/add` docstring`).
 
