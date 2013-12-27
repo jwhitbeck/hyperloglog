@@ -1,7 +1,7 @@
 (ns hyperloglog.time-series-test
   (:use hyperloglog.time-series
         midje.sweet)
-  (:require [hyperloglog.algorithm :refer [merge-num-leading-zeros-vecs standard-error zero-vec]]
+  (:require [hyperloglog.algorithm :refer [merge-observables standard-error zero-vec]]
             [midje.util :refer [testable-privates]]
             [taoensso.carmine :as car]))
 
@@ -9,7 +9,7 @@
 
 (defmacro wcar* [& body] `(car/wcar {} ~@body))
 
-(def test-opts {:num-estimators 1024
+(def test-opts {:num-observables 1024
                 :prefix "hyperloglog-test"
                 :bucket-length minute
                 :max-history (* 10 minute)})
@@ -34,14 +34,13 @@
 (fact "add-at works"
   (wcar* (reset test-opts))
   (wcar* (add-at "foobar" (minutes-ago 2) test-opts))
-  (->> (wcar* (fetch-num-leading-zeros-vecs-for-prefixes (latest-complete-prefixes minute test-opts)
-                                                        test-opts))
-       (apply merge-num-leading-zeros-vecs))
-    => (zero-vec (:num-estimators test-opts))
-  (->> (wcar* (fetch-num-leading-zeros-vecs-for-prefixes (latest-complete-prefixes (* 3 minute) test-opts)
-                                                        test-opts))
-      (apply merge-num-leading-zeros-vecs))
-    =not=> (zero-vec (:num-estimators test-opts))
+  (->> (wcar* (fetch-observables-list-for-prefixes (latest-complete-prefixes minute test-opts) test-opts))
+       (apply merge-observables))
+    => (zero-vec (:num-observables test-opts))
+  (->> (wcar* (fetch-observables-list-for-prefixes (latest-complete-prefixes (* 3 minute) test-opts)
+                                                   test-opts))
+      (apply merge-observables))
+    =not=> (zero-vec (:num-observables test-opts))
   ;; Expires are set correctly
   (wcar* (car/ttl (-> (minutes-ago 2)
                       (time-bucket-id (:bucket-length test-opts))
@@ -51,7 +50,7 @@
 (fact "count-latest-distinct works"
   (wcar* (reset test-opts))
   (let [num-items 10000
-        expected-error (* num-items (standard-error (:num-estimators test-opts)))]
+        expected-error (* num-items (standard-error (:num-observables test-opts)))]
     (doseq [item (range num-items)]
       (wcar* (add-at (str item) (minutes-ago 2) test-opts)))
     (wcar* (count-latest-distinct (:max-history test-opts) test-opts))

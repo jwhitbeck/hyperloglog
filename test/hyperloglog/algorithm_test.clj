@@ -45,9 +45,9 @@
 (fact "estimate cardinality works"
   (estimate-cardinality (repeat 16 3)) => 172)
 
-(fact "merge-num-leading-zeros-vecs works"
-  (merge-num-leading-zeros-vecs [0 0 2] [1 1 1]) => [1 1 2]
-  (merge-num-leading-zeros-vecs [0 0 1] [1 1]) => (throws AssertionError))
+(fact "merge-observables works"
+  (merge-observables [0 0 2] [1 1 1]) => [1 1 2]
+  (merge-observables [0 0 1] [1 1]) => (throws AssertionError))
 
 (fact "get-bias-correction works"
   (@get-bias-correction 8) => (throws AssertionError)

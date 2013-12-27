@@ -1,5 +1,5 @@
 (ns hyperloglog.time-series
-  (:require [hyperloglog.algorithm :refer [merge-num-leading-zeros-vecs estimate-cardinality]]
+  (:require [hyperloglog.algorithm :refer [merge-observables estimate-cardinality]]
             [hyperloglog.core :as core]
             [hyperloglog.redis :as redis]
             [taoensso.carmine :as car]))
@@ -68,15 +68,15 @@
            (take num-buckets-to-take)
            (mapv (partial time-bucket-prefix (:prefix opts)))))))
 
-(defn fetch-num-leading-zeros-vecs-for-prefixes
-  "Returns the vectors of the hyperloglog num-leading-zeros estimators for the provided prefixes. Useful
-  for retrieving estimators from several different hyperloglog counters before merging them.
+(defn fetch-observables-list-for-prefixes
+  "Returns a vector of the hyperloglog num-leading-zeros observables for the provided prefixes. Useful
+  for retrieving observables from several different hyperloglog counters before merging them.
 
   Takes an optional opts argument that should be the same as the opts map that was used to add the item to the
   hyperloglog counter (see `add-at`)."
   [prefixes & opts]
   (let [opts (apply merge default-opts opts)]
-    (apply redis/mvget (:num-estimators opts) prefixes)))
+    (apply redis/mvget (:num-observables opts) prefixes)))
 
 (defn count-latest-distinct
   "Returns the hyperloglog estimate of the number of different items added into the counters over the latest
@@ -86,8 +86,8 @@
   hyperloglog counter (see `add-at`)."
   [seconds & opts]
   (let [opts (apply merge default-opts opts)]
-    (->> (apply redis/mvget (:num-estimators opts) (latest-complete-prefixes seconds opts))
-         (car/parse (comp estimate-cardinality (partial apply merge-num-leading-zeros-vecs))))))
+    (->> (apply redis/mvget (:num-observables opts) (latest-complete-prefixes seconds opts))
+         (car/parse (comp estimate-cardinality (partial apply merge-observables))))))
 
 (defn reset
   "Resets all hyperlolog counters pointed at by the optional opts argument. See `add-at` for the available
