@@ -1,6 +1,6 @@
-(defproject hyperloglog "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject hyperloglog "0.1.0"
+  :description "A redis-backed hyperloglog implementation in Clojure"
+  :url "https://github.com/jwhitbeck/hyperloglog"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[byte-transforms "0.1.0"]
