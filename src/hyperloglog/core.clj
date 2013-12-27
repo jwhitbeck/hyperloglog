@@ -9,7 +9,7 @@
 (def default-opts
   {:num-observables 1024
    :prefix "hyperloglog"
-   :hash-fn (comp h/murmur128->64 str)})
+   :hash-fn h/murmur128->64})
 
 (defn add
   "Adds item to the hyperloglog counter. Takes an optional options map. The following options are available:
@@ -17,7 +17,7 @@
     - prefix:          The redis key under which to store the hyperloglog observables (default hyperloglog).
     - hash-fn:         The item->long 64 bit hash function that will be applied to the item to determine the
                        hyperloglog index and num-leading-zeros observable.
-                       By default, `(comp hyperloglog.hashing/murmur128->64 str)."
+                       By default, `hyperloglog.hashing/murmur128->64`."
   [item & opts]
   (let [{:keys [hash-fn prefix num-observables]} (apply merge default-opts opts)
         [idx num-leading-zeros] (item->index-num-leading-zeros-pair item hash-fn num-observables)]
