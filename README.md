@@ -18,8 +18,7 @@ Hyperloglog leverages the fantastic [carmine][] library for connecting to [Redis
 [hyperloglog "0.1.0"]
 ```
 
-First we need to set up a [carmine][] connection pool. For example, for a simple redis instance running on
-`redis.company.com`, use:
+First we need to set up a [carmine][] connection pool. For example, for a simple redis instance running on `redis.company.com`, use:
 
 ```clojure
 (ns my-app (:require [taoensso.carmine :as car]))
@@ -73,10 +72,11 @@ Populate the counter:
 (wcar* (hll-time/add-now "697d99d1-2cd9-4423-a4f8-6577dfd3f923"))
 ```
 
-Get the estimated number of distinct items over the last day:
+Get the estimated number of distinct items over recent time periods:
 
 ```clojure
-(wcar* (hll-time/count-lastest-distinct hll-time/day))
+(wcar* (hll-time/count-lastest-distinct hll-time/day))        ; last day
+(wcar* (hll-time/count-lastest-distinct (* 6 hll-time/hour))) ; last 6 hours
 ```
 
 Furthermore an `hll/add-at` function is available for adding items at a specific time. By default, the time-series are bucketed per hour but this is configurable (see the `hll/add-at` docstring for details).
