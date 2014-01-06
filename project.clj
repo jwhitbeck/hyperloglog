@@ -1,4 +1,4 @@
-(defproject hyperloglog "0.1.0"
+(defproject hyperloglog "0.1.1"
   :description "A redis-backed hyperloglog implementation in Clojure"
   :url "https://github.com/jwhitbeck/hyperloglog"
   :license {:name "Eclipse Public License"
