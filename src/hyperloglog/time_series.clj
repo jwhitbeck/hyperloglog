@@ -51,7 +51,7 @@
 (defn add-now
   "Add item to the latest time bucket."
   [item & opts]
-  (add-at item (seconds-since-epoch) opts))
+  (apply add-at item (seconds-since-epoch) opts))
 
 (defn latest-complete-prefixes
   "Returns the list of prefixes for complete buckets that cover the latest seconds. The number of seconds
