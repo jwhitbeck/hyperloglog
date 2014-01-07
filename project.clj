@@ -1,9 +1,10 @@
-(defproject hyperloglog "0.1.1"
+(defproject hyperloglog "0.1.2"
   :description "A redis-backed hyperloglog implementation in Clojure"
   :url "https://github.com/jwhitbeck/hyperloglog"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[byte-transforms "0.1.0"]
+  :dependencies [[byte-streams "0.1.7"] ; included to get the AOT bug fix
+                 [byte-transforms "0.1.1"]
                  [com.taoensso/carmine "2.4.0"]
                  [org.clojure/clojure "1.5.1"]
                  [org.clojure/math.numeric-tower "0.0.2"]
