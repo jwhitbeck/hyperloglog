@@ -34,12 +34,9 @@
 (fact "add-at works"
   (wcar* (reset test-opts))
   (wcar* (add-at "foobar" (minutes-ago 2) test-opts))
-  (->> (wcar* (fetch-observables-list-for-prefixes (latest-complete-prefixes minute test-opts) test-opts))
-       (apply merge-observables))
+  (wcar* (fetch-observables-for-prefixes (latest-complete-prefixes minute test-opts) test-opts))
     => (zero-vec (:num-observables test-opts))
-  (->> (wcar* (fetch-observables-list-for-prefixes (latest-complete-prefixes (* 3 minute) test-opts)
-                                                   test-opts))
-      (apply merge-observables))
+  (wcar* (fetch-observables-for-prefixes (latest-complete-prefixes (* 3 minute) test-opts) test-opts))
     =not=> (zero-vec (:num-observables test-opts))
   ;; Expires are set correctly
   (wcar* (car/ttl (-> (minutes-ago 2)
