@@ -47,7 +47,8 @@
 
 (fact "merge-observables works"
   (merge-observables [0 0 2] [1 1 1]) => [1 1 2]
-  (merge-observables [0 0 1] [1 1]) => (throws AssertionError))
+  (merge-observables [0 0 1] [1 1]) => (throws AssertionError)
+  (merge-observables) => (throws AssertionError))
 
 (fact "get-bias-correction works"
   (@get-bias-correction 8) => (throws AssertionError)

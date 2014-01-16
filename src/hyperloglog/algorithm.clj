@@ -108,8 +108,13 @@
 (defn merge-observables
   "Merges num-leading-zeros vectors from hyperloglog counters with the same number of estimators."
   [& vecs]
-  {:pre [(->> vecs (map count) (group-by identity) count (= 1))]}
-  (apply map max vecs))
+  {:pre [(seq vecs)]}
+  (let [num-observables (-> vecs first count)]
+    (reduce (fn [merged-observables-vec observables-vec]
+              (assert (= (count observables-vec) num-observables))
+              (map max merged-observables-vec observables-vec))
+            (repeat 0)
+            vecs)))
 
 (defn count-distinct
   "Counts the number of distinct items using using hyperloglog with num-observables. This is a local non-redis
