@@ -15,7 +15,7 @@ Hyperloglog leverages the fantastic [carmine][] library for connecting to [Redis
 
 ```clojure
 [com.taoensso/carmine "2.4.0"]
-[hyperloglog "0.1.1"]
+[hyperloglog "0.2.1"]
 ```
 
 First we need to set up a [carmine][] connection pool. For example, for a simple redis instance running on `redis.company.com`, use:
