@@ -16,9 +16,9 @@
 
 (fact "maxmapvget works"
   (wcar* (car/del "foo" "bar")
-         (car/hmset "foo" 0 1 2 3 4 5)
+         (car/hmset "foo" 0 10 2 3 4 5)
          (car/hmset "bar" 0 2 2 1))
-  (wcar* (maxmapvget 10 "foo" "bar")) => [2 0 3 0 5 0 0 0 0 0])
+  (wcar* (maxmapvget 10 "foo" "bar")) => [10 0 3 0 5 0 0 0 0 0])
 
 (fact "vget works"
   (wcar* (car/del "foo")

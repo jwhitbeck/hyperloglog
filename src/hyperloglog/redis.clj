@@ -42,7 +42,7 @@
         "    local key = raw_observable[i]"
         "    local value = raw_observable[i+1]"
         "    local merged_value = merged_observable[key]"
-        "    if not merged_value or merged_value < value then"
+        "    if not merged_value or tonumber(merged_value) < tonumber(value) then"
         "      merged_observable[key] = value"
         "    end"
         "    i = i + 2"
