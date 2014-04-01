@@ -9,6 +9,10 @@ Hyperlolog is a highly-accurate probabilistic cardinality estimation algorithm t
 
 [Redis]: http://redis.io
 
+## Obsolescence
+
+According to this [blog post](http://antirez.com/news/75), upcoming versions of [Redis][] will have built-in support for hyperloglog counters. Once that feature is released, this library should be considered deprecated.
+
 ## Setup
 
 Hyperloglog leverages the fantastic [carmine][] library for connecting to [Redis][]. Add the following dependencies to your `project.clj`:
