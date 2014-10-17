@@ -59,6 +59,6 @@
         num-series 10
         item-series (repeatedly num-series #(repeatedly num-items rand-long)) ; 10 series of 10k items
         hyperloglog-counts (map (partial count-distinct num-estimators) item-series)
-        mean-estimate (int (/ (reduce + hyperloglog-counts) num-series))]
+        mean-estimate (long (/ (reduce + hyperloglog-counts) num-series))]
     (is (and (< mean-estimate (+ num-items expected-error))
              (> mean-estimate (- num-items expected-error))))))

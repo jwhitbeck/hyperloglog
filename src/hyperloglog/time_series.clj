@@ -16,9 +16,9 @@
          {:bucket-length hour
           :max-history week}))
 
-(defn- seconds-since-epoch [] (int (/ (System/currentTimeMillis) 1000)))
+(defn- seconds-since-epoch [] (long (/ (System/currentTimeMillis) 1000)))
 
-(defn- time-bucket-id [seconds-since-epoch bucket-length] (int (/ seconds-since-epoch bucket-length)))
+(defn- time-bucket-id [seconds-since-epoch bucket-length] (long (/ seconds-since-epoch bucket-length)))
 
 (defn- list-available-time-bucket-ids [now {:keys [bucket-length max-history]}]
   (->> (iterate #(- % bucket-length) now)

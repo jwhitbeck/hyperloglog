@@ -95,10 +95,10 @@
   max for all values at each index position."
   [max-num-leading-zeros-vec]
   (let [num-observables (count max-num-leading-zeros-vec)]
-    (int (* (get-bias-correction num-observables)
-            num-observables
-            num-observables
-            (harmonic-mean (r/map naive-cardinality-estimate max-num-leading-zeros-vec))))))
+    (long (* (get-bias-correction num-observables)
+             num-observables
+             num-observables
+             (harmonic-mean (r/map naive-cardinality-estimate max-num-leading-zeros-vec))))))
 
 (defn zero-vec
   "Returns a vector of n elements initialized to 0."
