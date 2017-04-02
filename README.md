@@ -181,4 +181,4 @@ The hyperloglog algorithm relies on a good 64 bit hashing function. By default, 
 
 Copyright &copy; 2013 John Whitbeck
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Apache License 2.0.
